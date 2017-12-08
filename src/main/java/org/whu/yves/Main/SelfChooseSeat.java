@@ -13,7 +13,7 @@ public class SelfChooseSeat {
   private static String freeBook = "https://seat.lib.whu.edu.cn:8443/rest/v2/freeBook";
 
   public static void main(String[] args) {
-    YamlReader.prepare("conf/seat.yaml");
+    YamlReader.prepare(args[0]);
     ArrayList<String> users = YamlReader.getUsers();
     for (String user : users) {
       String[] str = user.split(":");
