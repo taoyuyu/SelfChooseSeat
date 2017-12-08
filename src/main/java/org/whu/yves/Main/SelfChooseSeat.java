@@ -16,8 +16,13 @@ public class SelfChooseSeat {
     YamlReader.prepare(args[0]);
     ArrayList<String> users = YamlReader.getUsers();
     for (String user : users) {
-      String[] str = user.split(":");
-      chooseSeat(str[0], str[1], str[2]);
+      new Thread(new Runnable() {
+        @Override
+        public void run() {
+          String[] str = user.split(":");
+          chooseSeat(str[0], str[1], str[2]);
+        }
+      }).start();
     }
   }
 
