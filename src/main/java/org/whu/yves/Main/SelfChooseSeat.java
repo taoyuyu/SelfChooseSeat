@@ -3,8 +3,6 @@ package org.whu.yves.Main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.log4j.Logger;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.whu.yves.https.HttpsRequest;
 import org.whu.yves.json.JsonParser;
 
