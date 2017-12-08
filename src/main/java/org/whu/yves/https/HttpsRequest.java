@@ -1,14 +1,11 @@
 package org.whu.yves.https;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,8 +15,10 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import org.apache.log4j.Logger;
 
 public class HttpsRequest {
+  private static Logger LOG = Logger.getLogger(HttpsRequest.class);
   private int startTime = (int)(8.5 * 2 * 30);
   private int endTime = (int)(21.5 * 2*30);
 
@@ -77,6 +76,7 @@ public class HttpsRequest {
         String parms = String
             .format(sample, contentParms.get("token"),
                 startTime, endTime, contentParms.get("seat"), contentParms.get("date"));
+        LOG.info(parms);
         // 获取URLConnection对象对应的输出流
         PrintWriter out = new PrintWriter(con.getOutputStream());
         // 发送请求参数
