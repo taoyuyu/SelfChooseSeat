@@ -8,6 +8,7 @@ import java.net.URL;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -75,7 +76,7 @@ public class HttpsRequest {
         con.setDoInput(true);
         String parms = String
             .format(sample, contentParms.get("token"),
-                startTime, endTime, contentParms.get("seat"), "2017-12-08");
+                startTime, endTime, contentParms.get("seat"), contentParms.get("date"));
         // 获取URLConnection对象对应的输出流
         PrintWriter out = new PrintWriter(con.getOutputStream());
         // 发送请求参数
@@ -95,7 +96,7 @@ public class HttpsRequest {
           con.getInputStream()));
       String line;
       while ((line = in.readLine()) != null) {
-        sb.append(line + "\n");
+        sb.append(line);
       }
 
     } catch (Exception e) {

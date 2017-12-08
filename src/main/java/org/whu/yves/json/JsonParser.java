@@ -12,7 +12,6 @@ public class JsonParser {
     JSONObject object = (JSONObject) jsonObject.get("data");
     return object.getString("token");
   }
-
   public String getStatus() {
     return jsonObject.getString("status");
   }
