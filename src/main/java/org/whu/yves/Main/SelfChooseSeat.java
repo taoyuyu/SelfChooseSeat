@@ -52,7 +52,7 @@ public class SelfChooseSeat {
           String url = String.format(logInUrl, username, password);
           String response = logInRequest.doPost(url, null);
           if (logInRequest.getResponseCode() != 200) {
-            LOG.error(response);
+            LOG.error("System error");
             break;
           }
           parser = new JsonParser(response);
@@ -60,6 +60,7 @@ public class SelfChooseSeat {
             status = 1;
             LOG.info(username + " login succeed");
           } else {
+            LOG.info(username + " login failed");
             break;
           }
         case 1:
