@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 
 public class HttpsRequest {
   private static Logger LOG = Logger.getLogger(HttpsRequest.class);
-  private int startTime = (int)(8.5 * 2 * 30);
+  private int startTime = (int)(8 * 2 * 30);
   private int endTime = (int)(21.5 * 2*30);
 
   private static String sample = "toke=%s&startTime=%d&endTime=%d&seat=%s&date=%s";
