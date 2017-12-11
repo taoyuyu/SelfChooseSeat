@@ -12,8 +12,9 @@ public class SelfChooseSeat {
   private static String logInUrl = "https://seat.lib.whu.edu.cn:8443/rest/auth?username=%s&password=%s";
   private static String freeBook = "https://seat.lib.whu.edu.cn:8443/rest/v2/freeBook";
   public static void main(String[] args) {
-
     YamlReader.prepare(args[0]);
+    LOG.info("date => " + YamlReader.getDate());
+
     ArrayList<String> users = YamlReader.getUsers();
     for (String user : users) {
       new Thread(new Runnable() {
