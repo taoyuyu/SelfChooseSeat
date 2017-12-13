@@ -21,14 +21,15 @@ public class SelfChooseSeat {
         @Override
         public void run() {
           String[] str = user.split(":");
-          chooseSeat(str[0], str[1], str[2]);
+          String[] seats = str[2].split(",");
+          chooseSeat(str[0], str[1], seats);
         }
       }).start();
     }
   }
 
 
-  public static void chooseSeat(String username, String password, String seat) {
+  public static void chooseSeat(String username, String password, String[] seats) {
     int status = 0;
     boolean fail = true;
     JsonParser parser = null;
@@ -55,16 +56,26 @@ public class SelfChooseSeat {
           LOG.info("book seat");
           HashMap<String, String> parms = new HashMap<>();
           parms.put("token", parser.getToken());
-          parms.put("seat", seat);
-          parms.put("date", YamlReader.getDate());
+          for (String seat : seats) {
+            LOG.info("Booking seat: " + seat);
+            parms.put("seat", seat);
+            parms.put("date", YamlReader.getDate());
 
-          HttpsRequest book = new HttpsRequest();
-          String result = book.doPost(freeBook, parms);
-          if (book.getResponseCode() != 200) {
-            LOG.error("book seat error");
-            break;
+            HttpsRequest book = new HttpsRequest();
+            String result = book.doPost(freeBook, parms);
+            if (book.getResponseCode() != 200) {
+              LOG.error("book seat error");
+              continue;
+            }
+            JsonParser resultParser = new JsonParser(result);
+            if (resultParser.getStatus().equals("fail")) {
+              LOG.info(result);
+              continue;
+            } else if (resultParser.getStatus().equals("success")) {
+              LOG.info(result);
+              break;
+            }
           }
-          LOG.info(result);
           fail = false;
       }
     }
