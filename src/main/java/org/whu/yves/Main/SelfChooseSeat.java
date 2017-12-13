@@ -56,7 +56,8 @@ public class SelfChooseSeat {
           LOG.info("book seat");
           HashMap<String, String> parms = new HashMap<>();
           parms.put("token", parser.getToken());
-          for (String seat : seats) {
+          for (int i=0; i<seats.length; ++i) {
+            String seat = seats[i];
             LOG.info("Booking seat: " + seat);
             parms.put("seat", seat);
             parms.put("date", YamlReader.getDate());
@@ -64,6 +65,7 @@ public class SelfChooseSeat {
             HttpsRequest book = new HttpsRequest();
             String result = book.doPost(freeBook, parms);
             if (book.getResponseCode() != 200) {
+              -- i;
               LOG.error("book seat error");
               continue;
             }
