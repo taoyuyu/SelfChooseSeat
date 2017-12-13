@@ -12,5 +12,6 @@ pom.xml.releaseBackup
 pom.xml.tag
 release.properties
 .idea/
+conf/seat.yaml
 *.iml
 *.log
