@@ -15,5 +15,8 @@ public class JsonParser {
   public String getStatus() {
     return jsonObject.getString("status");
   }
+  public String getMessage() {
+    return jsonObject.getString("message");
+  }
 
 }

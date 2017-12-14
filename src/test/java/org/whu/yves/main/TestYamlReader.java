@@ -13,5 +13,10 @@ public class TestYamlReader {
     LOG.info(YamlReader.getDate());
     LOG.info(YamlReader.getStart());
     LOG.info(YamlReader.getEnd());
+
+    LOG.info(YamlReader.getNoPower());
+    LOG.info(YamlReader.getNoPower());
+
+    LOG.info(YamlReader.getSeatIdByName("145"));
   }
 }

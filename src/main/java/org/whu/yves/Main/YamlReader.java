@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
 import org.apache.log4j.Logger;
 import org.ho.yaml.Yaml;
 
@@ -17,8 +18,21 @@ public class YamlReader {
   private static Logger LOG = Logger.getLogger(YamlReader.class);
   private static HashMap configuration = null;
   private static String tomorrow = null;
+  private static Map<String, String> map = new HashMap<>();
 
   private YamlReader() {
+  }
+
+  private static void initMap() {
+    putSeatToMap(getPower());
+    putSeatToMap(getNoPower());
+  }
+
+  private static void putSeatToMap(ArrayList<String> seats) {
+    for(String seat: seats) {
+      String[] str = seat.split(":");
+      map.put(str[0], str[1]);
+    }
   }
 
   public static void prepare(String path) {
@@ -28,6 +42,7 @@ public class YamlReader {
         File file = new File(path);
         try {
           configuration = Yaml.loadType(new FileInputStream(file), HashMap.class);
+          initMap();
           double start = (Double) configuration.get("start");
           configuration.replace("start", (int) (start * 2 * 30));
           double end = (Double) configuration.get("end");
@@ -65,6 +80,18 @@ public class YamlReader {
 
   public static int getEnd() {
     return (Integer) configuration.get("end");
+  }
+
+  public static ArrayList<String> getPower() {
+    return (ArrayList<String>) configuration.get("power");
+  }
+
+  public static ArrayList<String> getNoPower() {
+    return (ArrayList<String>) configuration.get("noPower");
+  }
+
+  public static String getSeatIdByName(String name) {
+    return map.get(name);
   }
 
 }
