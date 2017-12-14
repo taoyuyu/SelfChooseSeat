@@ -19,9 +19,10 @@ import org.apache.log4j.Logger;
 import org.whu.yves.Main.YamlReader;
 
 public class HttpsRequest {
+
   private static Logger LOG = Logger.getLogger(HttpsRequest.class);
 
-  private static String sample = "toke=%s&startTime=%d&endTime=%d&seat=%s&date=%s";
+  private static String sample = "startTime=%d&endTime=%d&seat=%s&date=%s";
   private int responseCode = -1;
 
   public String doPost(String hsUrl, HashMap<String, String> contentParms) {
@@ -73,8 +74,8 @@ public class HttpsRequest {
         con.setDoOutput(true);
         con.setDoInput(true);
         String parms = String
-            .format(sample, contentParms.get("token"),
-                YamlReader.getStart(), YamlReader.getEnd(), contentParms.get("seat"), contentParms.get("date"));
+            .format(sample, YamlReader.getStart(), YamlReader.getEnd(), contentParms.get("seat"),
+                contentParms.get("date"));
         LOG.info(parms);
         // 获取URLConnection对象对应的输出流
         PrintWriter out = new PrintWriter(con.getOutputStream());
