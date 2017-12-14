@@ -76,7 +76,6 @@ public class HttpsRequest {
         String parms = String
             .format(sample, YamlReader.getStart(), YamlReader.getEnd(), contentParms.get("seat"),
                 contentParms.get("date"));
-        LOG.info(parms);
         // 获取URLConnection对象对应的输出流
         PrintWriter out = new PrintWriter(con.getOutputStream());
         // 发送请求参数
@@ -100,7 +99,7 @@ public class HttpsRequest {
       }
 
     } catch (Exception e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage());
     }
     return sb.toString();
   }

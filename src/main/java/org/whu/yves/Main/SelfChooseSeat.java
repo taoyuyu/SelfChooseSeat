@@ -15,25 +15,20 @@ public class SelfChooseSeat {
   private static String freeBook = "https://seat.lib.whu.edu.cn:8443/rest/v2/freeBook";
   private static BlockingQueue<String> queue = new LinkedBlockingDeque<>();
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) {
     YamlReader.prepare(args[0]);
     LOG.info("date => " + YamlReader.getDate());
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          for (String temp : YamlReader.getPower()) {
-            queue.put(temp.split(":")[1]);
-          }
-
-          for (String temp : YamlReader.getNoPower()) {
-            queue.put(temp.split(":")[1]);
-          }
-        } catch (InterruptedException ie) {
-
-        }
+    try {
+      for (String temp : YamlReader.getPower()) {
+        queue.put(temp.split(":")[1]);
       }
-    }).start();
+
+      for (String temp : YamlReader.getNoPower()) {
+        queue.put(temp.split(":")[1]);
+      }
+    } catch (InterruptedException ie) {
+
+    }
 
     ArrayList<String> users = YamlReader.getUsers();
     for (String user : users) {
@@ -89,18 +84,26 @@ public class SelfChooseSeat {
       chooseOneSeat(parms);
     } else {
       JsonParser parser = new JsonParser(result);
-      LOG.info(result);
       if(parser.getStatus().equals("fail")) {
         String message = parser.getMessage();
         if (message.startsWith("系统可预约时间为")) {
-
+          LOG.info(message);
+          return;
         }
         if (message.startsWith("已有1个有效预约")) {
-          LOG.info("thread exit");
+          LOG.info(Thread.currentThread().getName()+" exit");
+          return;
+        }
+        if (message.startsWith("登录失败")) {
+          LOG.info(Thread.currentThread().getName()+" exit, " + "登录失败");
+          return;
+        }
+        if (message.startsWith("参数错误")) {
+          LOG.info(Thread.currentThread().getName()+" exit, " + "参数错误");
           return;
         }
         try {
-          //选择下一个座位 message :预约失败; 参数错误
+          //选择下一个座位 message :预约失败
           String seat = queue.take();
           LOG.info("pick next seat: " + seat);
           parms.put("seat", seat);
