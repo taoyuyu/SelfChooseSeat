@@ -18,13 +18,22 @@ import javax.net.ssl.X509TrustManager;
 public class HttpsTest {
 
   public static void main(String[] args) {
-    new HttpsTest().doMain();
+    final HttpsTest test = new HttpsTest();
+    for (int i=0; i<20; ++i) {
+      new Thread(() -> {
+        for (int j=0; j<1024000;++j) {
+          test.doMain();
+        }
+      }).start();
+    }
+
+
     log("DONE");
   }
 
   public void doMain() {
 
-    String hsUrl = "https://seat.lib.whu.edu.cn:8443/rest/auth?username=2014201050221&password=051745";
+    String hsUrl = "https://www.nowcoder.com/discuss/70862?toCommentId=1233343";
     URL url ;
 
     try {
@@ -67,15 +76,15 @@ public class HttpsTest {
       });
 
 
-      log(con.getResponseCode());
-      log(con.getCipherSuite());
-      log("");
+//      log(con.getResponseCode());
+//      log(con.getCipherSuite());
+//      log("");
       BufferedReader in = new BufferedReader(new InputStreamReader(
           con.getInputStream()));
       String line;
-      while ((line = in.readLine()) != null) {
-        System.out.println(line);
-      }
+//      while ((line = in.readLine()) != null) {
+//        System.out.println(line);
+//      }
 
       Certificate[] certs = con.getServerCertificates();
 
@@ -83,14 +92,14 @@ public class HttpsTest {
 
       for(Certificate cert : certs) {
         X509Certificate xcert = (X509Certificate) cert;
-        log("Cert No. " + certNum ++);
-        log(xcert.getType());
-        log(xcert.getPublicKey().getAlgorithm());
-        log(xcert.getIssuerDN());
-        log(xcert.getIssuerDN());
-        log(xcert.getNotAfter());
-        log(xcert.getNotBefore());
-        log("");
+//        log("Cert No. " + certNum ++);
+//        log(xcert.getType());
+//        log(xcert.getPublicKey().getAlgorithm());
+//        log(xcert.getIssuerDN());
+//        log(xcert.getIssuerDN());
+//        log(xcert.getNotAfter());
+//        log(xcert.getNotBefore());
+//        log("");
       }
 
     } catch (Exception e) {

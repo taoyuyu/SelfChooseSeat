@@ -79,6 +79,10 @@ public class SelfChooseSeat {
     HttpsRequest book = new HttpsRequest();
     String result = book.doPost(freeBook, parms);
     if (book.getResponseCode() != 200) {
+      if (book.getResponseCode() >= 500) {
+        //系统错误-退出
+        return;
+      }
       //重试
       LOG.info("retry seat: " + parms.get("seat"));
       chooseOneSeat(parms);
